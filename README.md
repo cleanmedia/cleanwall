@@ -34,7 +34,8 @@ debian based content filtering firewall
 <li><a href="#dhcp-server">DHCP Server</a></li>
 <li><a href="#mail">Mail</a></li>
 </ul>
-  
+</div></p>
+
   
 # Getting the Box
 
