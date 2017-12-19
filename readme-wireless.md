@@ -1,5 +1,7 @@
 #### Wireless Client Snippets
 
+Wireless client configuration is optionally needed during installation only and is part of the debian installer now - so we remove this from the main installation instructions. It is interesting for other debian based systems.
+
 ```
 # ip a
 # iwconfig
