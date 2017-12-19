@@ -2,8 +2,40 @@
 
 debian based content filtering firewall
 
-[TOC]
-
+<p><div class="toc">
+<ul>
+<li><a href="#cleanwall">Cleanwall</a></li>
+<li><a href="#getting-the-box">Getting the Box</a><ul>
+<li><a href="#install-debian-server">Install Debian Server</a></li>
+</ul>
+</li>
+<li><a href="#install-debian-firewall">Install Debian Firewall</a><ul>
+<li><ul>
+<li><ul>
+<li><a href="#etchosts">/etc/hosts</a></li>
+<li><a href="#etchostname">/etc/hostname</a></li>
+<li><a href="#etcaptsourceslist">/etc/apt/sources.list</a></li>
+<li><a href="#update-debian">Update debian</a></li>
+<li><a href="#default-shell">Default Shell</a></li>
+<li><a href="#time">Time</a></li>
+<li><a href="#pki">PKI</a></li>
+</ul>
+</li>
+<li><a href="#network">Network</a><ul>
+<li><a href="#etcsysctlconf">/etc/sysctl.conf</a></li>
+<li><a href="#etcnetworkinterfaces">/etc/network/interfaces</a></li>
+<li><a href="#configure-iptables-firewall">Configure iptables Firewall</a></li>
+</ul>
+</li>
+<li><a href="#wireless-ap">Wireless AP</a><ul>
+<li><a href="#etcdefaulthostapd">/etc/default/hostapd</a></li>
+<li><a href="#etchostapdhostapdconf">/etc/hostapd/hostapd.conf</a></li>
+<li><a href="#etcnetworkinterfaces-1">/etc/network/interfaces</a></li>
+<li><a href="#dhcp-server">DHCP Server</a></li>
+<li><a href="#mail">Mail</a></li>
+</ul>
+  
+  
 # Getting the Box
 
 This software should work on any debian based system. However we only support one single hardware platform in this project.
