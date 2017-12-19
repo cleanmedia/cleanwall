@@ -2,13 +2,12 @@
 
 debian based content filtering firewall
 
+
 <p><div class="toc">
 <ul>
-<li><a href="#cleanwall">Cleanwall</a></li>
 <li><a href="#getting-the-box">Getting the Box</a></li>
 <li><a href="#install-debian-server">Install Debian Server</a></li>
 <li><a href="#install-debian-firewall">Install Debian Firewall</a><ul>
-<li><ul>
 <li><ul>
 <li><a href="#etchosts">/etc/hosts</a></li>
 <li><a href="#etchostname">/etc/hostname</a></li>
@@ -23,18 +22,16 @@ debian based content filtering firewall
 <li><a href="#etcsysctlconf">/etc/sysctl.conf</a></li>
 <li><a href="#etcnetworkinterfaces">/etc/network/interfaces</a></li>
 <li><a href="#configure-iptables-firewall">Configure iptables Firewall</a></li>
-</ul>
-</li>
 <li><a href="#wireless-ap">Wireless AP</a><ul>
 <li><a href="#etcdefaulthostapd">/etc/default/hostapd</a></li>
 <li><a href="#etchostapdhostapdconf">/etc/hostapd/hostapd.conf</a></li>
+</ul>
+</li>
 <li><a href="#etcnetworkinterfaces-1">/etc/network/interfaces</a></li>
+</ul>
+</li>
 <li><a href="#dhcp-server">DHCP Server</a></li>
-<li><a href="#mail">Mail</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#email">Email</a></li>
 </ul>
 </li>
 <li><a href="#install-content-filtering-engine">Install Content Filtering Engine</a></li>
@@ -123,7 +120,7 @@ systemctl start systemd-timesyncd.service
 
 # Install Debian Firewall
 
-#### /etc/hosts
+### /etc/hosts
 ```
 127.0.0.1 localhost
 10.1.1.1 cleanwall.lan cleanwall
@@ -134,7 +131,7 @@ systemctl start systemd-timesyncd.service
 #ff02::2 ip6-allrouters
 ```
 
-#### /etc/hostname
+### /etc/hostname
 ```
 cleanwall
 ```
@@ -146,7 +143,7 @@ hostname
 hostname -f
 ```
 
-#### /etc/apt/sources.list
+### /etc/apt/sources.list
 This is old and shouldn't be needed:
 
 ```
@@ -163,7 +160,7 @@ deb http://debian.ethz.ch/debian/ jessie-updates main contrib non-free
 deb-src http://debian.ethz.ch/debian/ jessie-updates main contrib non-free
 ```
 
-#### Update debian
+### Update debian
 
 ```
 apt-get update
@@ -171,7 +168,7 @@ apt-get upgrade
 ```
 
 
-#### Default Shell
+### Default Shell
 The default 'dash' should be the right choice here. 
 Switch back, if you have choosen another one:
 
@@ -180,25 +177,25 @@ dpkg-reconfigure dash
 ```
 
 
-#### Time
+### Time
 This was not needed:
 ```
 apt-get install ntp ntpdate
 ```
 
 
-#### PKI
+### PKI
 Install authorized key
 ```
 /root/.ssh/authorized_keys
 ```
 
 
-### Network
+## Network
 (minimal install was all dhcp)
 
 
-#### /etc/sysctl.conf
+### /etc/sysctl.conf
 
 Sorry for disabling IPv6, but it is still not ready for the end user experience.
 I hope to enable that soon. And we acknowledge, that many cool features are waiting for it in the future.
@@ -228,7 +225,7 @@ Better in a script to avoid remote DHCP on boot:
 echo 1 > /proc/sys/net/ipv4/ip_forward
 ```
 
-#### /etc/network/interfaces
+### /etc/network/interfaces
 ```
 source /etc/network/interfaces.d/*
 
@@ -262,7 +259,7 @@ netmask 255.255.255.0
 
 
 
-#### Configure iptables Firewall
+### Configure iptables Firewall
 
 See File: 
 ```
@@ -359,7 +356,7 @@ Debug:
 ```
 
 
-#### /etc/network/interfaces
+### /etc/network/interfaces
 ```
 iface wlan0 inet manual
 or like so
@@ -373,7 +370,7 @@ pre-up iw dev wlan0 set 4addr on
 post-down iw dev wlan0 set 4addr off
 ```
 
-#### DHCP Server
+## DHCP Server
 ```
 apt-get install isc-dhcp-server
 ```
@@ -411,7 +408,7 @@ INTERFACES br0
 ```
 
 
-#### Mail
+## Email
 ```
 /etc/exim4/update-exim4.conf.conf
 # without ipv6 localloop ::1 listen port
