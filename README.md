@@ -5,10 +5,8 @@ debian based content filtering firewall
 <p><div class="toc">
 <ul>
 <li><a href="#cleanwall">Cleanwall</a></li>
-<li><a href="#getting-the-box">Getting the Box</a><ul>
+<li><a href="#getting-the-box">Getting the Box</a></li>
 <li><a href="#install-debian-server">Install Debian Server</a></li>
-</ul>
-</li>
 <li><a href="#install-debian-firewall">Install Debian Firewall</a><ul>
 <li><ul>
 <li><ul>
@@ -34,7 +32,16 @@ debian based content filtering firewall
 <li><a href="#dhcp-server">DHCP Server</a></li>
 <li><a href="#mail">Mail</a></li>
 </ul>
-</div></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#install-content-filtering-engine">Install Content Filtering Engine</a></li>
+</ul>
+</div>
+</p>
+
 
   
 # Getting the Box
@@ -53,7 +60,7 @@ Don't try to order the box, Wifi or SSD from another provider - safe time here f
 THIS IS AN EARLY DRAFT DOCUMENTATION  - DONT BUY HARDWARE IN THE HOPE THIS WILL WORK EXACTLY AS SHOWN
 
 
-## Install Debian Server
+# Install Debian Server
 
 To give a background of what is being done here, we basically follow this tutorial:
 
