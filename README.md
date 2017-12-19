@@ -2,6 +2,7 @@
 
 debian based content filtering firewall
 
+[TOC]
 
 # Getting the Box
 
