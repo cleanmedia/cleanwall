@@ -3,7 +3,7 @@
 debian based content filtering firewall
 
 
-<p><div class="toc">
+<p></p><div class="toc"><div class="toc">
 <ul>
 <li><a href="#getting-the-box">Getting the Box</a></li>
 <li><a href="#install-debian-server">Install Debian Server</a></li>
@@ -34,10 +34,37 @@ debian based content filtering firewall
 <li><a href="#email">Email</a></li>
 </ul>
 </li>
-<li><a href="#install-content-filtering-engine">Install Content Filtering Engine</a></li>
+<li><a href="#install-content-filtering-engine">Install Content Filtering Engine</a><ul>
+<li><a href="#bind9">bind9</a><ul>
+<li><ul>
+<li><a href="#force-google-and-youtube-safesearch">Force Google and youtube Safesearch</a></li>
+<li><a href="#force-local-nameserver">Force local nameserver</a></li>
+</ul>
+</li>
+<li><a href="#rpz">RPZ</a></li>
+</ul>
+</li>
+<li><a href="#apache">Apache</a></li>
+<li><a href="#redwood-filter">Redwood Filter</a><ul>
+<li><a href="#install-tools">Install Tools</a></li>
+<li><a href="#install-golang">Install golang</a></li>
+<li><a href="#test-golang">Test golang</a></li>
+<li><a href="#install-redwood">Install redwood</a></li>
+<li><a href="#configure-redwood">Configure Redwood</a></li>
+<li><a href="#selfsigned-cert">Selfsigned Cert</a></li>
+<li><a href="#redwood-init-script">Redwood Init Script</a></li>
+<li><a href="#issues-deprecated">Issues (deprecated)</a></li>
+<li><a href="#testing-redwood">Testing Redwood</a></li>
+</ul>
+</li>
+<li><a href="#observing-temperature">Observing Temperature</a></li>
+</ul>
+</li>
 </ul>
 </div>
-</p>
+</div>
+
+<p></p><p></p>
 
 
   
@@ -419,4 +446,344 @@ rm /var/log/exim4/paniclog
 
 # Install Content Filtering Engine
 
-TODO
+## bind9
+
+Install and use bind9 as DNS
+- possibly reboot shutdown -r now
+- apt-get update
+- apt-get install bind9
+- configure it:
+- http://askubuntu.com/questions/330148/how-do-i-do-a-complete-bind9-dns-server-configuration-with-a-hostname
+
+```
+/etc/bind/named.conf.options
+/etc/bind/named.conf.local
+/etc/resolv.conf
+/etc/default/bind9 (ipv4 only for speed: OPTIONS="-4 -u bind")
+/etc/bind/zones.rfc1918
+```
+
+- Activate internal DNS service
+- in dhcp-server use local (10.1.1.1) DNS from bind and google as a failover
+- touch /var/log/query.log ; chown bind /var/log/query.log
+
+Force DNS (see //usr/local/cleanwall/fw/fw.rules.v4.sh)
+- Add iptables force rule for DNS for any port 53 traffic (TCP and UDP)
+that tries to exit via the WAN - except to 8.8.8.8
+- Control the DNS (force Dyn, allow local dns hosts resolutions):
+
+[- and force 8.8.8.8 to have the local router as the source]
+(this is not needed, as local router process does not pass the dNAT restriction)
+
+- test, if the DNS can not be changed to opendns or direct client to google
+
+
+#### Force Google and youtube Safesearch
+```
+root@cleanwall:/etc/bind/zones# tail -5 db.rpz.vip
+www.google.com CNAME forcesafesearch.google.com.
+www.google.at CNAME forcesafesearch.google.com.
+www.google.ch CNAME forcesafesearch.google.com.
+www.google.de CNAME forcesafesearch.google.com.
+www.youtube.com CNAME forcesafesearch.google.com.
+etc
+```
+
+#### Force local nameserver
+/etc/dhcp/dhclient.conf
+```
+supersede domain-name-servers 10.1.1.1, 8.8.8.8;
+```
+
+
+### RPZ
+```
+/etc/bind/named.conf.options
+/etc/bind/named.conf.local
+/etc/bind/zones/db.rpz
+```
+
+```
+
+named-checkzone rpz db.rpz
+named-checkzone lan db.lan
+systemctl restart bind9
+dig +short www.acidcow.com @10.1.1.1
+```
+
+to create db.rpz see:
+/usr/local/cleanwall/lists/readme.txt
+
+
+## Apache
+```
+apt-get install apache2
+[/etc/init.d/apache2 start]
+added logical interface 192.168.10.11
+configure ports.conf and 000-default for this IF
+allow HTTP(S) from LAN/WAN to FW in firewall
+/var/www/html/index.html
+enable mod_rewrite and rewrite all to index.html
+a2enmod rewrite
+```
+
+add port 443 traffic (using ssl-cert):
+```
+
+[apt-get install ssl-cert]
+a2enmod ssl
+[a2dissite default-ssl] not needed here
+mkdir /var/www/www.lan
+cp /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/www.lan-ssl.conf
+vim /etc/apache2/sites-available/www.lan-ssl.conf
+adapt virtualhost ip and more if needed
+a2ensite www.lan-ssl.conf
+systemctl reload apache2
+```
+
+sorrypage:
+- a2enmod include
+- a2enmod cgid
+- apache variable HTTP_HOST auswerten
+- <!--#include virtual="/cgi-bin/get_categ.cgi" -->
+- /var/www/dnsblock/cgi-bin/get_categ.cgi
+- FROM=$(TZ=CET date -d "$START UTC" +"%H:%M") in time sorry cgi script
+
+
+## Redwood Filter
+
+### Install Tools
+```
+apt-get update
+apt-get install strace # systemctl trace
+apt-get install curl
+apt-get install tcpdump # firewall debug
+apt-get install git-core
+git config --list
+git config --global user.name "User Name"
+git config --global user.email name.user@dev
+```
+
+
+### Install golang
+```
+mkdir ~/go
+
+curl -O https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz
+tar xvf go1.7.4.linux-amd64.tar.gz
+chown -R root:root ./go
+```
+
+vim /etc/profile.d/goenv.sh
+```
+export GOROOT=$HOME/go
+export GOPATH=$HOME/work
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+```
+
+source /etc/profile.d/goenv.sh
+
+
+### Test golang
+```
+go version
+
+mkdir $HOME/work
+mkdir -p $HOME/work/src/my_project/hello
+```
+
+```
+vim ~/work/src/my_project/hello/hello.go
+```
+
+```
+package main
+
+import "fmt"
+
+func main() {
+fmt.Printf("Hello, World!\n")
+}
+```
+
+```
+go install my_project/hello
+```
+
+
+### Install redwood
+```
+cd /root/go/src
+go get github.com/andybalholm/redwood
+#go get github.com/andybalholm/redwood-config
+go get github.com/renatomercurio/redwood-config
+cd github.com/andybalholm/redwood
+vim testmode.go:
+add req.Header.Set("User-Agent", "Mozilla") to req
+go build
+cp redwood /usr/local/cleanwall/redwood/bin/
+```
+
+
+### Configure Redwood
+
+(cat /root/go/src/github.com/renatomercurio/redwood-config/README)
+
+```
+cp -r /root/go/src/github.com/renatomercurio/redwood-config /etc/redwood
+cp /root/go/bin/redwood /usr/local/bin
+```
+
+Final more flexible setup:
+```
+cd /usr/local/cleanwall/redwood
+mkdir config-bot
+rsync -av /etc/redwood/ config-bot/
+cd /etc/
+rm -rf redwood/
+ln -s /usr/local/cleanwall/redwood/config-bot redwood
+```
+
+
+### Selfsigned Cert
+(This has been improved - see /usr/local/cleanwall/apache/certs/readme.txt)
+
+```
+CPATH=/etc/ssl/localcerts
+mkdir -p $CPATH
+openssl req -new -x509 -days 3650 -nodes -out ${CPATH}/cleanwall.lan.pem -keyout ${CPATH}/cleanwall.lan.key -subj '/CN=cleanwall.lan'
+chmod 600 /etc/ssl/localcerts/cleanwall.lan*
+cd /etc/redwood
+ln -s /etc/ssl/localcerts/cleanwall.lan.key root_key.pem
+ln -s /etc/ssl/localcerts/cleanwall.lan.pem root.pem
+```
+
+
+### Redwood Init Script
+```
+mkdir /var/log/redwood
+vim /lib/systemd/system/redwood.service
+cd /etc/systemd/system/multi-user.target.wants/
+ln -s /lib/systemd/system/redwood.service redwood.service
+systemctl daemon-reload
+systemctl enable redwood.service
+systemctl start redwood.service
+```
+
+error log:
+```
+journalctl -u redwood
+```
+
+
+### Issues (deprecated)
+```
+1. /usr/local/cleanwall/redwood/etc/categories/pornography/regex.list -> comment lines 3 and 5
+2. add style to redwood block page
+3. images.yahoo.com.de or similar (https://de.images.search.yahoo.com) was blocked => try to turn on safe search instead!
+(this was the default browser choosen by dolphin mobile)
+and on the PC the CN was cleanwall - and not as expected cleanwall.lan!
+4. Link to internal page with known restrictions
+5. Unblock page request link and unblock client request link (automatic with email)
+
+**Main Problem of Bumping SSL**
+(deprecated content)
+
+problem with transparent ssl-bump proxy - and internally generated CONNECT req
+
+Führt immer wieder zu fehlenden Seiten und gestörter Kommunikation
+Weil die App annimmt, sie sei direkt verbunden und einige Server verlangen manchmal client auth.
+Das kann der Proxy nicht wissen, welche dies sind und wann.
+
+ergo muss ein expliziter Proxy erzwungen werden!
+
+Fehlende Seiten und Bilder in Flipboard nur bei web-redir (with bump:
+2017-02-16 19:53:02,10.1.1.102,ad.flipboard.com,52.4.224.165:443,error in handshake with client: remote error: tls: unknown certificate,
+2017-02-16 19:53:02,10.1.1.102,ue.flipboard.com,52.44.209.178:443,error in handshake with client: remote error: tls: unknown certificate,
+(so the mobile client presents a client cert? expecting an aws peer only)
+2017-02-16 20:26:53,10.1.1.102,images.futurezone.at,83.137.116.72:443,error in handshake with client: remote error: tls: unknown certificate
+und genau dieses Bild fehlt bei bump
+
+
+**Other Known Issues**
+
+* Chrome "Failed to connect to the Connection Server" nach click auf Horizon HTML access
+trotz importierter authority im system store - ebenfalls mit aktiviertem webfilter
+=> Problem ist Chrome!! (auch ohne webfilter interception geht es nicht)
+* Skype for Business kann kein Sign-In mit aktivierter webfilter rule (trotz ff store)
+=> später gings dann aber doch nach cancel und nochmals sign in button
+* FF for Android is not using the OS root cert trust store (but its own db)
+=> and dont even offer to import it there anymore => crippled as for Android
+
+...
+* SSL Proxy "Drony" for Android (only Android for Business has that). Aber trotzdem Spiel ohne Grenzen
+https://blog.habets.se/2014/09/Secure-browser-to-proxy-communication---again.html
+
+
+* Android mdns to 224.0.0.251
+* acl: before send origin req
+after rspfrom origin server
+after scanning response
+==> url allow before ssl-bump (analog squid https filter exclusions for)
+- twitter
+- soundhound
+- .apple.com
+- .icloud.com
+- .mzstatic.com
+```
+
+
+**Conclusion:**
+
+* Do not bump TLS - use a database instead, DNS RPZ - and, last but not least, a spying categorization engine in the background.
+
+
+**Resolved Issues**
+```
+* unknown certificate authority because HSTS dont allow bump (facebook, wikipedia, duckduckgo)
+=> import the cleanwall.lan cert into the OS trusted root CAs list (user provided space)
+* direct requests to classification service give 401 (missing required API authentication)
+i.e. curl http://10.1.1.1:6502/classify?url=https://golang.org
+=> changed api-acls.conf
+* Enable selective web redirects and test it.
+* Enable WLAN and switch to it! (TPL_2.4_E83C8E)
+* had this on ubuntu client resolv.conf:
+nameserver 127.0.1.1
+had to manually turn off:
+#dns=dnsmasq
+in
+/etc/NetworkManager/NetworkManager.conf
+
+* redwood would not resolv via local dns
+=> force nameserver in /etc/dhcp/dhclient.conf
+- redirect via DNAT was also impossible
+- would require the outgoing interface to route back to another interface, which makes no sense for DNAT
+
+* http://www.perfectgirls.net/category/[sorry.html] DNS sorry ohne CSS
+=> Redirect to index
+```
+
+
+
+### Testing Redwood
+```
+redwood -test www.sbb.ch/home.html
+chromium-browser --proxy-server="https=10.1.1.1:6510;http=10.1.1.1:6502"
+curl --proxy http://10.1.1.1:6502 -v http://www.sbb.ch/home.html
+curl --proxy http://10.1.1.1:6502 -vv http://www.cleanmedia.ch/agb.html
+tcpdump -n -i br0 host 10.1.1.102
+```
+
+
+## Observing Temperature
+```
+apt-get install lm-sensors
+sensors-detect
+
+vim /etc/modules
+# Chip drivers
+coretemp
+
+$ sensors
+```
+
