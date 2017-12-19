@@ -135,7 +135,7 @@ systemctl start systemd-timesyncd.service
 ```
 cleanwall
 ```
-Reboot anc check:
+Reboot and check:
 
 ```
 reboot
@@ -410,7 +410,7 @@ INTERFACES br0
 
 ## Email
 ```
-/etc/exim4/update-exim4.conf.conf
+/etc/exim4/update-exim4.conf
 # without ipv6 localloop ::1 listen port
 rm /var/log/exim4/paniclog
 ```
