@@ -332,31 +332,6 @@ pre-up iw dev wlan0 set 4addr on
 post-down iw dev wlan0 set 4addr off
 ```
 
-
-Wireless Client Snippets:
-```
-# ip a
-# iwconfig
-# ip link set wlan0 up
-sudo iwlist scan
-
-vim /etc/network/interfaces
-:
-# my wifi device
-auto wlan0
-iface wlan0 inet dhcp
-wireless-essid [ESSID]
-wireless-mode [MODE]
-OR http://www.cyberciti.biz/faq/howto-ubuntu-debian-squeeze-dhcp-server-setup-tutorial/
-wpa-ssid myssid
-wpa-psk ccb290fd4fe6b22935cbae31449e050edd02ad44627b16ce0151668f5f53c01b
-
-iface wlan_home inet dhcp
-wpa-ssid mynetworkname
-wpa-psk mysecretpassphrase
-```
-
-
 #### DHCP Server
 ```
 apt-get install isc-dhcp-server
