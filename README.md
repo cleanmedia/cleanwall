@@ -100,7 +100,7 @@ And burn it to an USB stick (double check first, if /dev/sdc is right for you):
 dd if=/home/user/Downloads/firmware-9.3.0-amd64-netinst.iso of=/dev/sdc bs=4M status=progress; sync
 ```
 
-Boot from the installation stick:
+Boot the target system from the installation stick:
 
 * Attach USB keyboard
 * Attach USB stick (burned before)
@@ -123,7 +123,7 @@ First boot:
 
 * Login as user administrator and the password you gave before.
 
-* eventually you may want to reconfigure locales and the keyboard:
+* eventually you may have to reconfigure locales and the keyboard:
 ```
 sudo dpkg-reconfigure locales
 sudo dpkg-reconfigure tzdata
@@ -212,9 +212,9 @@ apt-get install ntp ntpdate
 
 
 ### PKI
-Install authorized key
+Install authorized key:
 ```
-/root/.ssh/authorized_keys
+cat id_rsa.pub | ssh administrator@$TARGET "umask 077; mkdir -p .ssh; cat >.ssh/authorized_keys"
 ```
 
 
