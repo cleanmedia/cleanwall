@@ -123,18 +123,20 @@ First boot:
 
 * Login as user administrator and the password you gave before.
 
-* eventually you may have to reconfigure locales and the keyboard:
-```
-sudo dpkg-reconfigure locales
-sudo dpkg-reconfigure tzdata
-```
-
 * Get ready for ansible deployments:
 
 ```
-sudo -i
+su -
+apt-get install sudo
+adduser administrator sudo
 apt-get install ssh openssh-server
 apt-get install vim
+```
+
+* eventually you may have to reconfigure locales and the keyboard:
+```
+dpkg-reconfigure locales
+dpkg-reconfigure tzdata
 ```
 
 * Enable Time:
