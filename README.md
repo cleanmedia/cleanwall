@@ -136,17 +136,14 @@ adduser administrator sudo
 # call visudo and add NOPASSWD to group sudo
 ```
 
-<<<<<<< HEAD
-* Eventually enable Time (not needed):
-=======
 * eventually you may have to reconfigure locales and the keyboard:
+
 ```
 dpkg-reconfigure locales
 dpkg-reconfigure tzdata
 ```
 
-* Enable Time:
->>>>>>> b2509e186874687fe193980b8bc05ed97d8741a3
+* Eventually enable Time (not needed):
 
 ```
 systemctl enable systemd-timesyncd.service
