@@ -75,6 +75,7 @@ This software should work on any debian based system. However we only support on
 Fully tested and functional contributions for other reasonable platforms however are welcome.
 
 We get the box here:
+
 https://www.aliexpress.com/store/product/QOTOM-Mini-PC-Q190G4-with-4-LAN-port-using-pfsense-as-small-router-firewall-fanless-PC/108231_1000001826190.html
 
 Don't try to order the box, Wifi or SSD from another provider - safe time here first - not money.
@@ -90,7 +91,7 @@ To give a background of what is being done here, we basically follow this tutori
 
 https://www.howtoforge.com/tutorial/debian-minimal-server/
 
-But we download this latest image:
+The install image is an official stable debain network install image. The only reason to use the non-free variation is the missing Ralink rt2870.bin driver. We download this latest image:
 
 http://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/9.3.0+nonfree/amd64/iso-cd/firmware-9.3.0-amd64-netinst.iso
 
