@@ -115,7 +115,8 @@ Boot the target system from the installation stick:
 * Choose "Install" to use the text based installer
 * Follow more or less the mentioned tutorial with the following exceptions:
    * Choose your keyboard, location and language, that suites your needs.
-   * choose cleanwall as the hostname
+   * Choose cleanwall as the hostname
+   * In the software selection dialog choose 'SSH server' and 'standard system utilities' only.
 
 
 
@@ -134,10 +135,12 @@ sudo dpkg-reconfigure tzdata
 ```
 sudo -i
 apt-get install ssh openssh-server
-apt-get install vim
+apt-get install vim sudo
+adduser administrator sudo
+# call visudo and add NOPASSWD to group sudo
 ```
 
-* Enable Time:
+* Eventually enable Time (not needed):
 
 ```
 systemctl enable systemd-timesyncd.service
