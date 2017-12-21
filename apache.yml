@@ -1,0 +1,33 @@
+---
+
+- name: apache.yml | Install Apache
+  hosts: "{{ target }}"
+  become: yes
+
+  tasks:
+
+  - name: Install Apache Package Dependencies
+    yum: pkg={{ item }} state=present
+    with_items:
+      - apache2
+
+  - name: create apache root dir
+    file: recurse /usr/local/cw/apache
+
+  - name: Install apache scripts
+    copy: 
+
+# copy: ports.conf
+# copy: 000-default
+# copy: ...
+# synchronize: /usr/local/c1/www
+# command: a2enmod ssl
+# a2dissite: default-ssl
+# file: directory www.lan
+# copy: www.lan-ssl.conf
+# command: a2ensite www.lan-ssl.conf
+# command: a2enmod include
+# command: a2enmod: cgid
+# command: a2enmod
+#
+# create certs: /usr/local/cleanwall/apache/certs/readme.txt

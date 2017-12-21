@@ -1,0 +1,26 @@
+---
+
+- name: Resolve Basic Package Dependencies
+  include: server.yml
+  tags: srv
+
+- name: Hardware Specific Setup
+  include: hardware.yml
+  tags: hw
+
+- name: Router network setup
+  include: router.yml
+  tags: rtr
+
+- name: Install DNS Server bind9 with RPZ
+  include: bindrpz.yml
+  tags: dns
+
+- name: The Firewall
+  include: firewall.yml
+  tags: fw
+
+- name: Include DNS Server
+  include: apache.yml
+  tags: apa
+

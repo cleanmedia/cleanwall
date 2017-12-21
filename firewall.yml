@@ -1,0 +1,19 @@
+---
+
+- name: firewall.yml | Install Firewall
+  hosts: "{{ target }}"
+  become: yes
+
+  tasks:
+
+  - name: Install FW Package Dependencies
+    yum: pkg={{ item }} state=present
+    with_items:
+      - iptables-persistent
+
+  - name: create fw root dir
+    file: recurse /usr/local/cw/fw
+
+  - name: Install firewall scripts
+    synchronize: src=usr/local/c1/fw/ dest=/usr/local/cw/fw
+

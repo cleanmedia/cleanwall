@@ -1,0 +1,14 @@
+---
+
+- name: fw-store.yml | Initialize the Firewall
+  hosts: "{{ target }}"
+  become: yes
+
+  tasks:
+
+  - name: Run the FW Script
+    command: /usr/local/cleanwall/fw/fw.rules.v4.sh
+
+  - name: Save Current Rules in Persistence
+    raw: iptables-save > /etc/iptables/rules.v4
+
