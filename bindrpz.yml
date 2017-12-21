@@ -1,0 +1,27 @@
+---
+
+- name: bind.yml | Install DNS with RPZ
+  hosts: "{{ target }}"
+  become: yes
+
+  tasks:
+
+  - name: Install bind9 Package
+    yum: pkg={{ item }} state=present
+    with_items:
+      - bind9
+
+  - name: Copy named.conf.options
+    copy: src=etc/bind/named.conf.options dest=/etc/bind/
+
+  - name: Copy named.conf.local
+    copy: src=etc/bind/named.conf.local dest=/etc/bind/
+
+  - name: Copy db.rpz
+    copy: src=etc/bind/zones/db.rpz dest=/etc/bind/zones/
+
+  - name: Install Domain Category Lists
+    synchronize: src=usr/local/c1/lists/ dest=/usr/local/cw/lists/
+
+
+

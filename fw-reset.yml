@@ -1,0 +1,13 @@
+---
+
+# follow /usr/local/cleanwall/fw/readme.txt
+
+- name: fw-reset.yml | Reset the Firewall
+  hosts: "{{ target }}"
+  become: yes
+
+  tasks:
+
+  - name: Reset Firewall
+    raw: iptables-restore < /etc/iptables/rules.v4
+

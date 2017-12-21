@@ -1,0 +1,41 @@
+---
+
+- name: router.yml | Install Router Network with Wireless AP
+  hosts: "{{ target }}"
+  become: yes
+
+  tasks:
+
+  - name: Copy /etc/sysctl.conf
+    copy: src=etc/sysctl.conf dest=/etc/sysctl.conf
+
+  - name: Copy /etc/network/interfaces
+    copy: src=etc/network/interfaces dest=/etc/network/
+
+  - name: Install Wireless Package Dependencies
+    yum: pkg={{ item }} state=present
+    with_items:
+      - wireless-tools
+      - wpasupplicant
+      - hostapd
+
+  - name: Copy /etc/default/hostapd
+    copy: src=etc/default/hostapd dest=/etc/default/
+
+  - name: Copy /etc/hostapd/hostapd.conf
+    copy: src=etc/hostapd/hostapd.conf dest=/etc/hostapd/
+
+  - name: Install DHCP Server Package
+    yum: pkg={{ item }} state=present
+    with_items:
+      - isc-dhcp-server
+
+  - name: Copy /etc/dhcp/dhcpd.conf
+    copy: src=etc/dhcp/dhcpd.conf dest=/etc/dhcp/
+
+  - name: Install exim4 Email
+    yum: pkg={{ item }} state=present
+    with_items:
+      - exim4
+
+

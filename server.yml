@@ -1,0 +1,42 @@
+---
+
+- name: server.yml | Install Basic Server
+  hosts: "{{ target }}"
+  become: yes
+
+  tasks:
+
+  - name: Install Basic Server Package Dependencies
+    apt: pkg={{ item }} state=present
+    with_items:
+      - ssh
+      - openssh-server
+      - vim
+      - locales-all
+      - aptitude
+      - lshw
+      - strace
+      - curl
+      - tcpdump
+
+  - name: Debian System Upgrade
+    apt:
+      update_cache=yes upgrade=yes
+    register: results_debian
+
+
+#  - name: Configure SSSD template copy and notify example
+#    template: src=files/sys/sssd.conf.j2 dest=/etc/sssd/sssd.conf
+#              owner=root group=root mode=0600
+#    notify: restart sssd
+#
+#  - name: Ensure timesyncd is started and enabled on boot
+#    service: name=systemd-timesyncd state=started enabled=yes
+#
+#
+#  handlers:
+#
+#  - name: restart sssd
+#    service: name=sssd state=restarted
+
+
