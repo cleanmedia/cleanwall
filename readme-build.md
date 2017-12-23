@@ -10,7 +10,7 @@ ansible-playbook server.yml --extra-vars "target=$INT"
 # build and install the redwood binary:
 ansible-playbook install-redwood.yml --extra-vars "target=$INT"
 
-# example install a cleanwall config:
+# install the rest of the cleanwall config:
 ansible-playbook install-cleanwall.yml --extra-vars "target=$INT"
 
 # example install a cleanwall config - dns with rpz only:
