@@ -131,7 +131,7 @@ First boot:
 su -
 apt-get install vim sudo
 adduser administrator sudo
-# call visudo and add NOPASSWD to group sudo
+# call visudo and change to "%sudo  ALL=(ALL) NOPASSWD:ALL"
 ```
 
 * eventually you may have to reconfigure locales and the keyboard:
