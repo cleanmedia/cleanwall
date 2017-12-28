@@ -109,7 +109,7 @@ Boot the target system from the installation stick:
 * Attach power
 * Push power button and then ESC to enter the BIOS
    * make BIOS and grub boot settings visible
-   * keep secure boot enabled
+   * disable secure boot
    * choose boot order to enable USB first
    * do not bother too much about network settings (they will be completely overwritten by the firewall installation procedure)
 * Boot
@@ -129,9 +129,6 @@ First boot:
 
 ```
 su -
-apt-get install sudo
-adduser administrator sudo
-apt-get install ssh openssh-server
 apt-get install vim sudo
 adduser administrator sudo
 # call visudo and add NOPASSWD to group sudo
