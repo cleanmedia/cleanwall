@@ -1,8 +1,8 @@
 Build
 =====
 ```
-INT=192.168.0.234 # target machine to be installed
-DEV=192.168.0.192 # developer linux desktop used to deploy the target
+INT=192.168.11.114 # target machine to be installed
+DEV=192.168.11.149 # developer linux desktop used to deploy the target
 
 # Finish the server installation
 ansible-playbook server.yml --extra-vars "target=$INT"
@@ -36,8 +36,8 @@ ssh administrator@$INT
 
 # checkout:
 cd ~/deploy
-git clone https://github.com/cm/c1.git
-cd c1
+git clone https://github.com/cm/cleanwall.git
+cd cleanwall
 ```
 
 
