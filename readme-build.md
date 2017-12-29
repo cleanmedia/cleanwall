@@ -36,7 +36,7 @@ ssh administrator@$INT
 
 # checkout:
 cd ~/deploy
-git clone https://github.com/cm/cleanwall.git
+git clone https://github.com/cleanmedia/cleanwall.git
 cd cleanwall
 ```
 
