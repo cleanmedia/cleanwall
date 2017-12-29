@@ -12,8 +12,8 @@
       - iptables-persistent
 
   - name: create fw root dir
-    file: recurse /usr/local/cw/fw
+    file: recurse /usr/local/cleanwall/fw
 
   - name: Install firewall scripts
-    synchronize: src=usr/local/c1/fw/ dest=/usr/local/cw/fw
+    synchronize: src=usr/local/cleanwall/fw/ dest=/usr/local/cleanwall/fw
 

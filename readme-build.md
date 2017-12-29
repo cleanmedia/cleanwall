@@ -4,17 +4,17 @@ Build
 INT=192.168.11.114 # target machine to be installed
 DEV=192.168.11.149 # developer linux desktop used to deploy the target
 
-# Finish the server installation
-ansible-playbook server.yml --extra-vars "target=$INT"
+# Change WLAN Password (wpa_passphrase) in hostapd.conf
+vim files/etc/hostapd/hostapd.conf
+
+# install the cleanwall basic config:
+ansible-playbook install-cleanwall.yml --extra-vars "target=$INT"
+
+# example (re-)install dns / rpz only from the cleanwall config:
+ansible-playbook install-cleanwall.yml --extra-vars "target=$INT tags=dns"
 
 # build and install the redwood binary:
 ansible-playbook install-redwood.yml --extra-vars "target=$INT"
-
-# install the rest of the cleanwall config:
-ansible-playbook install-cleanwall.yml --extra-vars "target=$INT"
-
-# example install a cleanwall config - dns with rpz only:
-ansible-playbook install-cleanwall.yml --extra-vars "target=$INT tags=dns"
 
 
 # (re-)initialize the firewall after parameter changes:
@@ -38,6 +38,9 @@ ssh administrator@$INT
 cd ~/deploy
 git clone https://github.com/cleanmedia/cleanwall.git
 cd cleanwall
+
+# get ready for ansible:
+sudo apt install ansible
 ```
 
 

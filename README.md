@@ -131,17 +131,17 @@ First boot:
 su -
 apt-get install vim sudo
 adduser administrator sudo
-# call visudo and change to "%sudo  ALL=(ALL) NOPASSWD:ALL"
+visudo  # change to "%sudo  ALL=(ALL) NOPASSWD:ALL" for ansible
 ```
 
-* eventually you may have to reconfigure locales and the keyboard:
+* Optionally: if you have to reconfigure locales and the keyboard:
 
 ```
 dpkg-reconfigure locales
 dpkg-reconfigure tzdata
 ```
 
-* Eventually enable Time (not needed):
+* Optionally: if you have to enable Time after installing from behind a firewall:
 
 ```
 systemctl enable systemd-timesyncd.service

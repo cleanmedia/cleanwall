@@ -1,0 +1,17 @@
+#!/bin/bash
+# 07.07.2017 CC BY-SA 4.0 license, Renato Mercurio, Cleanmedia
+
+# variables:
+PATH='/sbin:/bin:/usr/bin'
+FWPATH=/usr/local/cleanwall/fw
+source ${FWPATH}/vars.v4.load
+
+## INTERNET WEB TRAFFIC TIME FILTER
+###################################
+START=$(cat ${FWPATH}/time-default.vars | awk '{print $1}')
+STOP=$(cat ${FWPATH}/time-default.vars | awk '{print $2}')
+DAYS=$(cat ${FWPATH}/time-default.vars | awk '{print $3}')
+
+iptables -t nat -A PREROUTING -s $LAN ! -d $LAN -p tcp --dport 80 -m time --timestart $START --timestop $STOP --weekdays $DAYS -j DNAT --to $STIP 
+iptables -t nat -A PREROUTING -s $LAN ! -d $LAN -p tcp --dport 443 -m time --timestart $START --timestop $STOP --weekdays $DAYS -j DNAT --to $STIP
+

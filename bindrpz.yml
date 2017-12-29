@@ -20,8 +20,10 @@
   - name: Copy db.rpz
     copy: src=etc/bind/zones/db.rpz dest=/etc/bind/zones/
 
-  - name: Install Domain Category Lists
-    synchronize: src=usr/local/c1/lists/ dest=/usr/local/cw/lists/
+  - name: Copy db.rpz.vip
+    copy: src=etc/bind/zones/db.rpz.vip dest=/etc/bind/zones/
 
+#  - name: Install Domain Category Lists
+#    synchronize: src=usr/local/cleanwall/list/ dest=/usr/local/cleanwall/list/
 
 

@@ -1,0 +1,53 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+######################################################################
+# Cleanwall Settings
+
+allow-hotplug eth0
+iface eth0 inet dhcp
+
+iface eth1 inet manual
+iface eth2 inet manual
+iface eth3 inet manual
+iface wlan0 inet manual
+
+auto br0
+iface br0 inet static
+    bridge_ports eth1 eth2 eth3 wlan0
+    address 10.1.1.1
+    netmask 255.255.255.0
+    bridge_stp off
+    bridge_waitport 5
+    bridge_fd 0
+    pre-up iw dev wlan0 set 4addr on
+    post-down iw dev wlan0 set 4addr off
+#   pre-up iwconfig wlan0 essid CLEANLAN
+#   bridge_hw 12:34:56:78:90:12 # ip link show wlan0
+
+auto br0:1
+iface br0:1 inet static
+    address 10.1.1.11
+    netmask 255.255.255.0
+
+auto br0:2
+iface br0:2 inet static
+    address 10.1.1.12
+    netmask 255.255.255.0
+
+auto br0:3
+iface br0:3 inet static
+    address 10.1.1.13
+    netmask 255.255.255.0
+
+auto br0:10
+iface br0:10 inet static
+    address 10.1.1.20
+    netmask 255.255.255.0
+

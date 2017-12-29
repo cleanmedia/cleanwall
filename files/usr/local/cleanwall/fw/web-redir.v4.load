@@ -1,0 +1,15 @@
+#!/bin/bash
+# 28.01.2016 CC BY license, Renato Mercurio, Cleanmedia
+
+# variables:
+PATH='/sbin:/bin:/usr/bin'
+FWPATH=$(dirname $0)
+source ${FWPATH}/vars.v4.load
+
+## WEB TRAFFIC INTERCEPTION
+###########################
+
+# transparent web traffic redirection to cleanwall proxy:
+iptables -t nat -A PREROUTING -s $LAN ! -d $LAN -p tcp --dport 80 -j DNAT --to-destination ${ROUTERIP}:6502
+iptables -t nat -A PREROUTING -s $LAN ! -d $LAN -p tcp --dport 443 -j DNAT --to-destination ${ROUTERIP}:6510
+

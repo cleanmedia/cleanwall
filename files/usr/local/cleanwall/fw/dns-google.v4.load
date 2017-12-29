@@ -1,0 +1,13 @@
+#!/bin/bash
+# 28.01.2016 CC BY license, Renato Mercurio, Cleanmedia
+
+# variables:
+PATH='/sbin:/bin:/usr/bin'
+FWPATH=$(dirname $0)
+source ${FWPATH}/vars.v4.load
+DNS=8.8.8.8
+
+# Control the DNS (force routed dns resolutions to local cleanwall):
+iptables -t nat -A PREROUTING -i $LANIF -p udp --dport 53 -j DNAT --to $DNS
+iptables -t nat -A PREROUTING -i $LANIF -p tcp --dport 53 -j DNAT --to $DNS
+

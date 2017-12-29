@@ -12,10 +12,10 @@
       - apache2
 
   - name: create apache root dir
-    file: recurse /usr/local/cw/apache
+    file: recurse /usr/local/cleanwall/apache
 
-  - name: Install apache scripts
-    copy: 
+#  - name: Install apache scripts
+#    copy: 
 
 # copy: ports.conf
 # copy: 000-default
@@ -31,3 +31,4 @@
 # command: a2enmod
 #
 # create certs: /usr/local/cleanwall/apache/certs/readme.txt
+

@@ -1,0 +1,18 @@
+#!/bin/bash
+# 28.01.2016 CC BY license, Renato Mercurio, Cleanmedia
+
+# variables:
+PATH='/sbin:/bin:/usr/bin'
+FWPATH=/usr/local/cleanwall/fw
+source ${FWPATH}/vars.v4.load
+
+## WEB TRAFFIC INTERCEPTION
+###########################
+
+# transparent web traffic redirection to cleanwall proxy for select MAC addresses:
+for line in $(ls ${FWPATH}/mac/*/webfilter); do
+  MAC=$(ls $line | awk -F/ '{print $7}')
+  iptables -t nat -A PREROUTING -s $LAN ! -d $LAN -m mac --mac-source $MAC -p tcp --dport 80 -j DNAT --to-destination ${ROUTERIP}:6502
+  iptables -t nat -A PREROUTING -s $LAN ! -d $LAN -m mac --mac-source $MAC -p tcp --dport 443 -j DNAT --to-destination ${ROUTERIP}:6510
+done
+
