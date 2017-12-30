@@ -21,6 +21,7 @@
   - name: Install Wireless Package Dependencies
     apt: pkg={{ item }} state=present
     with_items:
+      - iw
       - wireless-tools
       - wpasupplicant
       - hostapd

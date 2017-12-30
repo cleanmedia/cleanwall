@@ -1,6 +1,6 @@
 ---
 
-- name: bind.yml | Install DNS with RPZ
+- name: bindrpz.yml | Install DNS with RPZ
   hosts: "{{ target }}"
   become: yes
 
@@ -23,11 +23,11 @@
   - name: Copy named.conf.log
     copy: src=etc/bind/named.conf.log dest=/etc/bind/
 
-  - name: Copy db.rpz
-    copy: src=etc/bind/zones/db.rpz dest=/etc/bind/zones/
-
   - name: Copy db.rpz.vip
-    copy: src=etc/bind/zones/db.rpz.vip dest=/etc/bind/zones/
+    copy: src=etc/bind/db.rpz.vip dest=/etc/bind/
+
+  - name: Copy db.rpz (sry very slow ansible copy for 200MB)
+    copy: src=etc/bind/db.rpz dest=/etc/bind/
 
   - name: Copy db.1.1.10
     copy: src=etc/bind/db.1.1.10 dest=/etc/bind/

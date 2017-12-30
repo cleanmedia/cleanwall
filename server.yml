@@ -19,6 +19,7 @@
       - curl
       - tcpdump
       - rsync
+      - bridge-utils
 
   - name: Debian System Upgrade
     apt:

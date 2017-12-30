@@ -27,5 +27,8 @@
       dest: /usr/local/cleanwall/fw
 
   - name: Copy 16-ip4enableforwarding (enable it AFTER netfilter is UP)
-    copy: src=usr/share/netfilter-persistent/plugins.d/16-ip4enableforwarding dest=/usr/share/netfilter-persistent/plugins.d/
+    copy: 
+      src:  usr/share/netfilter-persistent/plugins.d/16-ip4enableforwarding 
+      dest: /usr/share/netfilter-persistent/plugins.d/
+      mode: 0755
 

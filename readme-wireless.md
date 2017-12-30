@@ -41,7 +41,7 @@ bridge_hw $MAC_ADDRESS_OF_YOUR_WIRELESS_CARD # ip link show wlan0
 So the Layer 2 Bridge would be as that:
 ```
 apt-get install bridge-utils
-bridge_ports eth1 eth2 eth3 wlan0 in interfaces file
+bridge_ports enp2s0 enp3s0 enp4s0 wlan0 in interfaces file
 ```
 
 Ebtables:
@@ -63,7 +63,7 @@ EBTABLES_ATOMIC_FILE=/root/ebtables-atomic ebtables -t nat --atomic-commit # res
 ProxyARP (layer 3 bridge):
 ```
 echo 1 > /proc/sys/net/ipv4/conf/all/proxy_arp
-#ip ro add 10.42.0.11/32 dev eth0
+#ip ro add 10.42.0.11/32 dev enp1s0
 => DHCP is a layer 2 protocol and can't traverse the layer 3 bridge
 => dhcp-helper needed (listen for dhcp req from inside and relay them to dhcp server on outside net)
 => eventually add a /32 route for the net

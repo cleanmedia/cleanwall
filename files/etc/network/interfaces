@@ -10,17 +10,17 @@ iface lo inet loopback
 ######################################################################
 # Cleanwall Settings
 
-allow-hotplug eth0
-iface eth0 inet dhcp
+allow-hotplug enp1s0
+iface enp1s0 inet dhcp
 
-iface eth1 inet manual
-iface eth2 inet manual
-iface eth3 inet manual
+iface enp2s0 inet manual
+iface enp3s0 inet manual
+iface enp4s0 inet manual
 iface wlan0 inet manual
 
 auto br0
 iface br0 inet static
-    bridge_ports eth1 eth2 eth3 wlan0
+    bridge_ports enp2s0 enp3s0 enp4s0 wlan0
     address 10.1.1.1
     netmask 255.255.255.0
     bridge_stp off

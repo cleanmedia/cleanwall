@@ -103,6 +103,7 @@ dd if=/home/user/Downloads/firmware-9.3.0-amd64-netinst.iso of=/dev/sdc bs=4M st
 
 Boot the target system from the installation stick:
 
+* Attach Switch or Router with Internet connection to LAN1 (will become WAN later)
 * Attach USB keyboard
 * Attach USB stick (burned before)
 * Attach VGA monitor
@@ -116,7 +117,7 @@ Boot the target system from the installation stick:
 * Choose "Install" to use the text based installer
 * Follow more or less the mentioned tutorial with the following exceptions:
    * Choose your keyboard, location and language, that suites your needs.
-   * Choose cleanwall as the hostname
+   * Choose 'cleanwall' as the hostname and 'lan' as the domain
    * In the software selection dialog choose 'SSH server' and 'standard system utilities' only.
 
 
@@ -236,12 +237,12 @@ I hope to enable that soon. And we acknowledge, that many cool features are wait
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
-net.ipv6.conf.eth0.disable_ipv6 = 1
-net.ipv6.conf.eth1.disable_ipv6 = 1
-net.ipv6.conf.eth2.disable_ipv6 = 1
-net.ipv6.conf.eth3.disable_ipv6 = 1
-net.ipv6.conf.br0.disable_ipv6 = 1
-net.ipv6.conf.wlan0.disable_ipv6 = 1
+#net.ipv6.conf.eth0.disable_ipv6 = 1
+#net.ipv6.conf.eth1.disable_ipv6 = 1
+#net.ipv6.conf.eth2.disable_ipv6 = 1
+#net.ipv6.conf.eth3.disable_ipv6 = 1
+#net.ipv6.conf.br0.disable_ipv6 = 1
+#net.ipv6.conf.wlan0.disable_ipv6 = 1
 ```
 
 Still got IPv6 ... ADDRCONF ... link eth0 is not ready
