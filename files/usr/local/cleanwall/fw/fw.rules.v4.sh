@@ -49,7 +49,7 @@ iptables -A INPUT   -i $WANIF -m conntrack --ctstate ESTABLISHED,RELATED -j ACCE
 iptables -A FORWARD -i $WANIF -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
 # Allow incoming ssh from the WAN side
-#iptables -A INPUT -i $WANIF -p tcp --dport 22 -m conntrack --ctstate NEW -j ACCEPT
+iptables -A INPUT -i $WANIF -p tcp --dport 22 -m conntrack --ctstate NEW -j ACCEPT
 # Incoming HTTP(S) from the WAN side
 #iptables -A INPUT -i $WANIF    -p tcp --dport 80 -m conntrack --ctstate NEW -j ACCEPT
 #iptables -A INPUT -i $WANIF    -p tcp --dport 443 -m conntrack --ctstate NEW -j ACCEPT
