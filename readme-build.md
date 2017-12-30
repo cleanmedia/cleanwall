@@ -41,6 +41,12 @@ cd cleanwall
 
 # get ready for ansible:
 sudo apt install ansible
+
+# get ready for git LFS:
+curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+sudo apt-get install git-lfs
+git lfs track "*.rpz"
+git lfs track "*.li"
 ```
 
 
