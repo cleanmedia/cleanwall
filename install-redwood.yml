@@ -2,11 +2,12 @@
 
 - name: install-redwood.yml | Install Redwood and Dependencies
   hosts: "{{ target }}"
-  become: yes
+  become: no
 
   tasks:
 
   - name: Install Redwood Build Package Dependencies
+    become: yes
     apt: pkg={{ item }} state=present
     with_items:
       - git-core
@@ -16,6 +17,7 @@
       - golang-1.8
 
   - name: Set GOPATH for all users
+    become: yes
     copy:
       src: etc/profile.d/go-path.sh
       dest: /etc/profile.d
@@ -24,83 +26,84 @@
   - name: Get Redwood Cascadia Dependency from Github
     git:
       repo: https://github.com/andybalholm/cascadia.git
-      dest: ~/go/src/github.com/andybalholm/cascadia
+      dest: /usr/local/cleanwall/go/src/github.com/andybalholm/cascadia
 
   - name: Get Redwood dhash Dependency from Github
     git:
       repo: https://github.com/andybalholm/dhash.git
-      dest: ~/go/src/github.com/andybalholm/dhash
+      dest: /usr/local/cleanwall/go/src/github.com/andybalholm/dhash
 
   - name: Get Redwood go-bit Dependency from Github
     git:
       repo: https://github.com/andybalholm/go-bit.git
-      dest: ~/go/src/github.com/andybalholm/go-bit
+      dest: /usr/local/cleanwall/go/src/github.com/andybalholm/go-bit
 
   - name: Get Redwood gzip Dependency from Github
     git:
       repo: https://github.com/klauspost/compress.git
-      dest: ~/go/src/github.com/klauspost/compress
+      dest: /usr/local/cleanwall/go/src/github.com/klauspost/compress
 
   - name: Get Redwood cpuid Dependency from Github
     git:
       repo: https://github.com/klauspost/cpuid.git
-      dest: ~/go/src/github.com/klauspost/cpuid
+      dest: /usr/local/cleanwall/go/src/github.com/klauspost/cpuid
 
   - name: Get Redwood go-gypsy Dependency from Github
     git:
       repo: https://github.com/kylelemons/go-gypsy.git
-      dest: ~/go/src/github.com/kylelemons/go-gypsy
+      dest: /usr/local/cleanwall/go/src/github.com/kylelemons/go-gypsy
 
   - name: Get Redwood dns Dependency from Github
     git:
       repo: https://github.com/miekg/dns.git
-      dest: ~/go/src/github.com/miekg/dns
+      dest: /usr/local/cleanwall/go/src/github.com/miekg/dns
 
   - name: Get Redwood ftpget Dependency from Github
     git:
       repo: https://github.com/remogatto/ftpget.git
-      dest: ~/go/src/github.com/remogatto/ftpget
+      dest: /usr/local/cleanwall/go/src/github.com/remogatto/ftpget
 
   - name: Get Redwood golang html Dependency from Github
     command: go get golang.org/x/net/html
     args:
-      chdir: ~/go/src
-      creates: ~/go/src/golang.org/x/net/html
+      chdir: /usr/local/cleanwall/go/src
+      creates: /usr/local/cleanwall/go/src/golang.org/x/net/html
     environment:
-      GOPATH: /root/go
+      GOPATH: /usr/local/cleanwall/go
 
   - name: Get Redwood golang text Dependency from Github
     command: go get golang.org/x/text
     args:
-      chdir: ~/go/src
-      creates: ~/go/src/golang.org/x/text
+      chdir: /usr/local/cleanwall/go/src
+      creates: /usr/local/cleanwall/go/src/golang.org/x/text
     environment:
-      GOPATH: /root/go
+      GOPATH: /usr/local/cleanwall/go
 
 
   - name: Get Redwood Main Executable Source from Github
     git:
       repo: https://github.com/andybalholm/redwood.git
-      dest: ~/go/src/github.com/andybalholm/redwood
+      dest: /usr/local/cleanwall/go/src/github.com/andybalholm/redwood
 #      force: yes
       update: no
 
   - name: Get Redwood Shadow Bot Config from Github
     git:
       repo: https://github.com/renatomercurio/redwood-config.git
-      dest: ~/go/src/github.com/renatomercurio/redwood-config
+      dest: /usr/local/cleanwall/go/src/github.com/renatomercurio/redwood-config
 #      force: yes
       update: no
 
   - name: Create Symbolic Link for Redwood Config 
+    become: yes
     file:
-      src: "/root/go/src/github.com/renatomercurio/redwood-config"
+      src: "/usr/local/cleanwall/go/src/github.com/renatomercurio/redwood-config"
       dest: "/etc/redwood"
       state: link
 
   - name: Set User Agent Patch for Testmode
     lineinfile:
-      dest: ~/go/src/github.com/andybalholm/redwood/testmode.go
+      dest: /usr/local/cleanwall/go/src/github.com/andybalholm/redwood/testmode.go
       regexp: 'User-Agent'
       insertbefore: 'reqACLs :'
       line: '	req.Header.Set("User-Agent", "Mozilla")'
@@ -108,13 +111,13 @@
   - name: Build the Redwood Golang Binary
     command: /usr/lib/go-1.8/bin/go install github.com/andybalholm/redwood
     args:
-      chdir: ~/go/src
-      creates: ~/go/bin/redwood
+      chdir: /usr/local/cleanwall/go/src
+      creates: /usr/local/cleanwall/go/bin/redwood
     environment:
-      GOPATH: /root/go
+      GOPATH: /usr/local/cleanwall/go
 
 
-#cp redwood /usr/local/c1/redwood/bin/
+#cp redwood /usr/local/cleanwall/redwood/bin/
 
 
 # use apache/certs certificates
