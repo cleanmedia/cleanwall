@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Copyright (C) 2017 Renato Mercurio
+#
+# Description: avoid the firewall to enable forwarding too early at boot
+#              so here we enable it right after the firewall started
+#
+
+set -e
+
+rc=0
+
+enable_forwarding()
+{
+	#enable forwarding AFTER the firewall is up
+        echo 1 > /proc/sys/net/ipv4/ip_forward
+}
+
+case "$1" in
+start)
+	enable_forwarding
+	;;
+save|stop|flush|restart|reload|force-reload)
+	;;
+*)
+    echo "Usage: $0 {start|restart|reload|force-reload|save|flush}" >&2
+    exit 1
+    ;;
+esac
+
+exit $rc

@@ -7,13 +7,25 @@
   tasks:
 
   - name: Install FW Package Dependencies
-    yum: pkg={{ item }} state=present
+    apt: pkg={{ item }} state=present
     with_items:
       - iptables-persistent
 
-  - name: create fw root dir
-    file: recurse /usr/local/cleanwall/fw
+  - name: Create Cleanwall FW Directory
+    file:
+      path: /usr/local/cleanwall/fw
+      recurse: yes
+      state: directory
+      mode: 0755
+      owner: administrator
+      group: administrator
 
   - name: Install firewall scripts
-    synchronize: src=usr/local/cleanwall/fw/ dest=/usr/local/cleanwall/fw
+    become: no
+    synchronize: 
+      src: files/usr/local/cleanwall/fw/ 
+      dest: /usr/local/cleanwall/fw
+
+  - name: Copy 16-ip4enableforwarding (enable it AFTER netfilter is UP)
+    copy: src=usr/share/netfilter-persistent/plugins.d/16-ip4enableforwarding dest=/usr/share/netfilter-persistent/plugins.d/
 

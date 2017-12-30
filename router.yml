@@ -12,29 +12,41 @@
   - name: Copy /etc/network/interfaces
     copy: src=etc/network/interfaces dest=/etc/network/
 
+  - name: Copy /etc/hosts
+    copy: src=etc/hosts dest=/etc/
+
+  - name: Copy /etc/resolv.conf
+    copy: src=etc/resolv.conf dest=/etc/
+
   - name: Install Wireless Package Dependencies
-    yum: pkg={{ item }} state=present
+    apt: pkg={{ item }} state=present
     with_items:
       - wireless-tools
       - wpasupplicant
       - hostapd
 
-  - name: Copy /etc/default/hostapd
-    copy: src=etc/default/hostapd dest=/etc/default/
+#  - name: Copy /etc/default/hostapd
+#    copy: src=etc/default/hostapd dest=/etc/default/
 
   - name: Copy /etc/hostapd/hostapd.conf
     copy: src=etc/hostapd/hostapd.conf dest=/etc/hostapd/
 
   - name: Install DHCP Server Package
-    yum: pkg={{ item }} state=present
+    apt: pkg={{ item }} state=present
     with_items:
       - isc-dhcp-server
 
   - name: Copy /etc/dhcp/dhcpd.conf
     copy: src=etc/dhcp/dhcpd.conf dest=/etc/dhcp/
 
+  - name: Copy /etc/dhcp/dhclient.conf
+    copy: src=etc/dhcp/dhclient.conf dest=/etc/dhcp/
+
+  - name: Copy /etc/default/isc-dhcp-server
+    copy: src=etc/default/isc-dhcp-server dest=/etc/default/
+
   - name: Install exim4 Email
-    yum: pkg={{ item }} state=present
+    apt: pkg={{ item }} state=present
     with_items:
       - exim4
 

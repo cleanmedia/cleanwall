@@ -1,0 +1,11 @@
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = cleanwall.lan
+DNS.2 = wall.lan
+DNS.3 = dav.lan
+DNS.4 = police.lan
+DNS.5 = web2py.lan

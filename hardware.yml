@@ -7,7 +7,7 @@
   tasks:
 
   - name: Install Hardware Specific Packages
-    yum: pkg={{ item }} state=present
+    apt: pkg={{ item }} state=present
     with_items:
       - lm-sensors
 

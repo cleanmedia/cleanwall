@@ -7,9 +7,12 @@
   tasks:
 
   - name: Install bind9 Package
-    yum: pkg={{ item }} state=present
+    apt: pkg={{ item }} state=present
     with_items:
       - bind9
+
+  - name: Copy /etc/default/bind9
+    copy: src=etc/default/bind9 dest=/etc/default/
 
   - name: Copy named.conf.options
     copy: src=etc/bind/named.conf.options dest=/etc/bind/
@@ -17,13 +20,25 @@
   - name: Copy named.conf.local
     copy: src=etc/bind/named.conf.local dest=/etc/bind/
 
+  - name: Copy named.conf.log
+    copy: src=etc/bind/named.conf.log dest=/etc/bind/
+
   - name: Copy db.rpz
     copy: src=etc/bind/zones/db.rpz dest=/etc/bind/zones/
 
   - name: Copy db.rpz.vip
     copy: src=etc/bind/zones/db.rpz.vip dest=/etc/bind/zones/
 
+  - name: Copy db.1.1.10
+    copy: src=etc/bind/db.1.1.10 dest=/etc/bind/
+
+  - name: Copy db.lan
+    copy: src=etc/bind/db.lan dest=/etc/bind/
+
+  - name: Copy zones.rfc1918
+    copy: src=etc/bind/zones.rfc1918 dest=/etc/bind/
+
+
+
 #  - name: Install Domain Category Lists
 #    synchronize: src=usr/local/cleanwall/list/ dest=/usr/local/cleanwall/list/
-
-

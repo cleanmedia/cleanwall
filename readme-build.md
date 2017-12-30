@@ -7,6 +7,11 @@ DEV=192.168.11.149 # developer linux desktop used to deploy the target
 # Change WLAN Password (wpa_passphrase) in hostapd.conf
 vim files/etc/hostapd/hostapd.conf
 
+# Recreate cleanwall certificates:
+cd files/apache/certs
+./recreate.sh
+cd -
+
 # install the cleanwall basic config:
 ansible-playbook install-cleanwall.yml --extra-vars "target=$INT"
 

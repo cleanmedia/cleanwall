@@ -18,6 +18,7 @@
       - strace
       - curl
       - tcpdump
+      - rsync
 
   - name: Debian System Upgrade
     apt:

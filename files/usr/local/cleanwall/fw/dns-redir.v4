@@ -1,12 +1,1 @@
-#!/bin/bash
-# 08.07.2017 CC BY-SA 4.0 license, Renato Mercurio, Cleanmedia
-
-# variables:
-PATH='/sbin:/bin:/usr/bin'
-FWPATH=$(dirname $0)
-source ${FWPATH}/vars.v4.load
-
-# Control the DNS (force routed dns resolutions to local cleanwall):
-iptables -t nat -A PREROUTING -i $LANIF -p udp --dport 53 -j DNAT --to $ROUTERIP
-iptables -t nat -A PREROUTING -i $LANIF -p tcp --dport 53 -j DNAT --to $ROUTERIP
-
+dns-redir.v4.load

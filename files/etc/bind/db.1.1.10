@@ -1,0 +1,17 @@
+;
+; BIND reverse data file for local area network 
+;
+$TTL	604800
+@	IN	SOA	cleanwall.lan. root.lan. (
+			2017011401	; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+;
+@	IN	NS	ns.lan.
+1	IN	PTR	cleanwall.lan.
+11      IN      PTR     wall.lan.
+12      IN      PTR     dav.lan.
+13      IN      PTR     police.lan.
+20      IN      PTR     web2py.lan.

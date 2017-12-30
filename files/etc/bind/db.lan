@@ -1,0 +1,25 @@
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     ns.lan. root.lan. (
+                              4         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@              IN      NS      ns.lan.
+
+lan.           IN      A       10.1.1.1
+ns             IN      A       10.1.1.1
+cleanwall      IN      A       10.1.1.1
+wall           IN      A       10.1.1.11
+*.wall         IN      A       10.1.1.11
+dav            IN      A       10.1.1.12
+*.dav          IN      A       10.1.1.12
+police         IN      A       10.1.1.13
+*.police       IN      A       10.1.1.13
+web2py         IN      A       10.1.1.20
+*.web2py       IN      A       10.1.1.20
+www            IN      CNAME   lan.

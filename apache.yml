@@ -7,28 +7,76 @@
   tasks:
 
   - name: Install Apache Package Dependencies
-    yum: pkg={{ item }} state=present
+    apt: pkg={{ item }} state=present
     with_items:
       - apache2
 
-  - name: create apache root dir
-    file: recurse /usr/local/cleanwall/apache
+  - name: Create Cleanwall Apache Directory
+    file:
+      path: /usr/local/cleanwall/apache
+      recurse: yes
+      state: directory
+      mode: 0755
+      owner: administrator
+      group: administrator
 
-#  - name: Install apache scripts
-#    copy: 
+  - name: Install Cleanwall Apache Configs
+    become: no
+    synchronize:
+      src: files/usr/local/cleanwall/apache/
+      dest: /usr/local/cleanwall/apache
 
-# copy: ports.conf
-# copy: 000-default
-# copy: ...
-# synchronize: /usr/local/c1/www
-# command: a2enmod ssl
-# a2dissite: default-ssl
-# file: directory www.lan
-# copy: www.lan-ssl.conf
-# command: a2ensite www.lan-ssl.conf
-# command: a2enmod include
-# command: a2enmod: cgid
-# command: a2enmod
-#
-# create certs: /usr/local/cleanwall/apache/certs/readme.txt
+  - name: Copy /etc/apache2/ports.conf
+    copy: src=etc/apache2/ports.conf dest=/etc/apache2/
 
+  - name: Copy /etc/apache2/sites-available/000-default.conf
+    copy: src=etc/apache2/sites-available/000-default.conf dest=/etc/apache2/sites-available/
+
+  - name: Copy /etc/apache2/sites-available/013-sorry-police-ssl.conf
+    copy: src=etc/apache2/sites-available/013-sorry-police-ssl.conf dest=/etc/apache2/sites-available/
+
+  - name: Copy /etc/apache2/sites-available/020-web2py-ssl.conf
+    copy: src=etc/apache2/sites-available/020-web2py-ssl.conf dest=/etc/apache2/sites-available/
+
+  - name: Copy /etc/apache2/sites-available/www.lan-ssl.conf
+    copy: src=etc/apache2/sites-available/www.lan-ssl.conf dest=/etc/apache2/sites-available/
+
+#  - name: Copy /etc/apache2/sites-available/default-ssl.conf
+#    copy: src=etc/apache2/sites-available/default-ssl.conf dest=/etc/apache2/sites-available/
+
+  - name: Enable Apache SSL Module
+    apache2_module:
+      state: present
+      name: ssl
+
+  - name: Enable Apache include Module
+    apache2_module:
+      state: present
+      name: include
+
+  - name: Enable Apache cgid Module
+    apache2_module:
+      state: present
+      name: cgid
+
+  - name: Create Web Content Directory
+    file:
+      path: /var/www
+      state: directory
+      mode: 0755
+      owner: administrator
+      group: administrator
+
+  - name: Install Web Content
+    become: no
+    synchronize:
+      src: files/var/www/
+      dest: /var/www
+
+  - name: Disable Default SSL Site
+    command: a2ensite www.lan-ssl.conf
+
+  - name: Enable Site https://www.lan
+    command: a2ensite www.lan-ssl.conf
+
+# get full latest /var/www 
