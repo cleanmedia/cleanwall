@@ -6,6 +6,14 @@
 
   tasks:
 
+  - name: Create bind9 log Directory
+    file:
+      path: /var/log/bind
+      state: directory
+      mode: 0755
+      owner: bind
+      group: bind
+
   - name: Install bind9 Package
     apt: pkg={{ item }} state=present
     with_items:

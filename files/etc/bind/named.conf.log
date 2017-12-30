@@ -1,6 +1,6 @@
 logging {
     channel query.log {
-        file "/var/log/bind9/query.log" versions 10 size 10m ;
+        file "/var/log/bind/query.log" versions 10 size 10m ;
         // Set the severity to dynamic to see all the debug messages.
         severity debug 3;
         print-time yes;

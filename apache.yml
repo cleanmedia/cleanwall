@@ -59,6 +59,16 @@
       state: present
       name: cgid
 
+  - name: Enable Apache rewrite Module
+    apache2_module:
+      state: present
+      name: rewrite
+
+  - name: Enable Apache headers Module
+    apache2_module:
+      state: present
+      name: headers
+
   - name: Create Web Content Directory
     file:
       path: /var/www

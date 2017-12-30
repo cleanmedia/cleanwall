@@ -6,7 +6,7 @@ PATH='/sbin:/bin:/usr/bin'
 
 LAN='10.1.1.0/24'
 LANIF='br0'
-WANIF='enp1s0'
+WANIF='eth0'
 ROUTERIP='10.1.1.1'
 SORRY=10.1.1.11
 SORRYTIMEIP=10.1.1.12

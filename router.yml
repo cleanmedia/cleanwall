@@ -9,6 +9,15 @@
   - name: Copy /etc/sysctl.conf
     copy: src=etc/sysctl.conf dest=/etc/sysctl.conf
 
+  - name: Disable systemd Device Renaming
+    lineinfile:
+      dest: /etc/default/grub
+      regexp: '^GRUB_CMDLINE_LINUX='
+      line: 'GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"'
+
+  - name: update grub
+    command: update-grub
+
   - name: Copy /etc/network/interfaces
     copy: src=etc/network/interfaces dest=/etc/network/
 
