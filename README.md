@@ -34,7 +34,7 @@ To give a background of what is being done here, we basically follow this tutori
 
 https://www.howtoforge.com/tutorial/debian-minimal-server/
 
-The install image is an official stable debain network install image. The only reason to use the non-free variation is the missing Ralink rt2870.bin driver. We download this latest image:
+The install image is an official stable debian network install image. The only reason to use the non-free variation is the missing Ralink rt2870.bin driver. We download this latest image:
 
 http://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/9.3.0+nonfree/amd64/iso-cd/firmware-9.3.0-amd64-netinst.iso
 
@@ -97,6 +97,12 @@ systemctl start systemd-timesyncd.service
 This is how we prepare our developer linux computer to be able to install the cleanwall target system. It is needed only once and can be done from Ubuntu.
 
 ```
+INT=192.168.11.114 # set to the target machine's IP
+DEV=192.168.11.149 # IP of developer linux desktop used to deploy the target
+
+# adapt cleanwall.ini to reflect these your own IP's (depend on the upstream router):
+vim cleanwall.ini
+
 ssh $DEV
 # eventually re-create the login key:
 ssh-keygen # if this was not safely done before
@@ -124,9 +130,6 @@ git lfs track "*.li"
 # Install Cleanwall Firewall
 
 ```
-INT=192.168.11.114 # target machine to be installed
-DEV=192.168.11.149 # developer linux desktop used to deploy the target
-
 # Change WLAN Password (wpa_passphrase) in hostapd.conf
 vim files/etc/hostapd/hostapd.conf
 
