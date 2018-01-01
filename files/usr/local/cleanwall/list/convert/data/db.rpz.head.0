@@ -1,0 +1,11 @@
+; rpz
+$TTL 60
+@	300 IN SOA	lan. info.lan. (
+		2017011401	; Serial
+		3H		; Refresh
+		1H		; Retry
+		1W		; Expire
+		1H		; Minimum TTL
+)
+		IN  NS         ns.lan.
+

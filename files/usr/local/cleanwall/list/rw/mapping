@@ -1,0 +1,72 @@
+
+ads	  computer	  games		malware		 pornography	  statesites	  violence
+auto	  conspiracy	  health	music		 proxies	  translation	  warez
+badwords  construction	  housewares	news		 real-estate	  travel	  weather
+banking   domainsforsale  idtheft	office-supplies  search-engines   updates
+blogging  drugs		  image-search	peer2peer	 secretsocieties  upstreamfilter
+chat	  gambling	  knowledge	personals	 sports		  video-sharing
+
+Name        Id        
+----------  ----------
+Ads         11        ads
+Ads         11        domainsforsale
+Adult       1         pornography
+Blogging    12        blogging
+Christian   33        
+Computer    13        computer
+Computer    13        updates
+Dating      36        
+Directory   15        translation
+Drugs       37        drugs
+Filehosting  16        
+Gambling    38        gambling
+Games       17        games
+Health      34        health
+Illegal     2         warez
+Image       18       image-search 
+Info        19        knowledge
+Jobs        39        
+Malicious   4         malware
+Malicious   4         idtheft
+Messaging   20        chat
+Mixedadult  3         
+News        21        news
+Payment     22        
+Peer-to-peer  5         peer2peer
+Phishing    6         
+Pornography  23        
+Portal      24        
+Proxy       8         proxies
+Radio       40        
+Redirector  41        
+Remote      42        
+Search      25        search-engines
+Sect        43        
+Shopping    26        office-supplies
+Shopping    26        housewares
+Shortener   27        
+Social      28        personals
+Sports      44        sports
+Spyware     9         
+Travel      29        travel
+Video       30        video-sharing
+Violence    10        violence
+Weapons     35        
+Weather     31        weather
+Webmail     32        
+
+
+currently set to ignore:
+upstreamfilter
+
+
+statesites
+auto
+conspiracy
+music
+badwords
+construction
+real-estate
+banking
+secretsocieties
+

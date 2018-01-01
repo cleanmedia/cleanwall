@@ -1,0 +1,10 @@
+CREATE TABLE Domain(Id INTEGER PRIMARY KEY, Name TEXT, Level INTEGER, sourceid INTEGER, CategoryName TEXT, CatId INTEGER, Cat2Id INTEGER, Cat3Id INTEGER);
+CREATE TABLE Category(Id INTEGER PRIMARY KEY, Name TEXT, Desc TEXT);
+CREATE TABLE Source(Id INTEGER PRIMARY KEY, Name TEXT, Desc TEXT);
+
+ALTER TABLE Domain ADD COLUMN Invariance INTEGER;
+ALTER TABLE Domain ADD COLUMN Pcountry TEXT;
+CREATE INDEX DomNameIdx ON Domain (Name);
+
+#find doubly categorized entries:
+#SELECT name FROM domain GROUP BY name HAVING COUNT(*) > 1;

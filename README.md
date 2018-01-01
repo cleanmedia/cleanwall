@@ -131,6 +131,7 @@ curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.s
 sudo apt-get install git-lfs
 git lfs track "*.rpz"
 git lfs track "*.li"
+git lfs track "*.db"
 ```
 
 # Install Cleanwall Firewall
