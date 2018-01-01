@@ -35,8 +35,8 @@
       - wpasupplicant
       - hostapd
 
-#  - name: Copy /etc/default/hostapd
-#    copy: src=etc/default/hostapd dest=/etc/default/
+  - name: Copy /etc/default/hostapd
+    copy: src=etc/default/hostapd dest=/etc/default/
 
   - name: Copy /etc/hostapd/hostapd.conf
     copy: src=etc/hostapd/hostapd.conf dest=/etc/hostapd/
