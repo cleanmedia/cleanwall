@@ -1,0 +1,165 @@
+/*
+Design by Maa Designs
+http://www.maadesigns.co.uk
+*/
+
+body {
+	margin: 20px;
+	padding: 0;
+	background: #111111;
+	font: normal small Arial, Helvetica, sans-serif;
+	color: #6F4503;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	padding: 0;
+	text-transform: uppercase;
+	color: #9E6813;
+}
+
+h1, h2, h3 {
+}
+
+h4, h5, h6 {
+}
+
+p, ul, ol, blockquote {
+	margin-top: 0;
+}
+
+a {
+	color: #6F4503;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+img {
+	border: none;
+}
+
+/* Header */
+
+#logo {
+	width: 780px;
+	height: 75px;
+	margin: 0 auto;
+	padding: 35px 0 0 0;
+	background: #FFEE8F url(images/bigbg.gif) repeat-x;
+	border: 5px solid #FFFFFF;
+	border-bottom: none;
+}
+
+#logo h1 {
+	text-align: center;
+	font-size: 3em;
+}
+
+#logo h2 {
+	text-align: center;
+	font-size: 1.4em;
+}
+
+#logo a {
+	text-decoration: none;
+	color: #9E6813;
+}
+
+/* Menu */
+
+#menu {
+	width: 780px;
+	height: 36px;
+	margin: 0 auto;
+	padding: 0;
+	background: #4E4E4E;
+	border: 5px solid #FFFFFF;
+	border-top: 1px solid #FFFFFF;
+	border-bottom: 1px solid #FFFFFF;;
+}
+
+#menu h2 {
+	display: none;
+}
+
+#menu ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#menu li {
+	display: inline;
+}
+
+#menu a {
+	display: block;
+	float: left;
+	width: 98px;
+	height: 26px;
+	padding-top: 10px;
+	text-align: center;
+	text-decoration: none;
+	color: #CCCCCC;
+}
+
+#menu a:hover, #menu .active a {
+	background: #000000;
+	color: #FFFFFF;
+}
+
+/* Splash */
+
+#image {
+	width: 780px;
+	margin: 0 auto;
+	background: #FFFFFF;
+	border-left: 5px solid #FFFFFF;
+	border-right: 5px solid #FFFFFF;
+}
+
+/* Content */
+
+#body {
+	width: 780px;
+	margin: 0 auto;
+	background: #FFFFFF;
+	border: 5px solid #FFFFFF;
+}
+
+#body .title {
+	padding: 10px 20px;
+	background: #FFEE8E url(images/smallbg.gif) repeat-x left bottom;
+	font-size: 1em;
+}
+
+#body .story {
+	padding: 20px;
+	border: 2px solid #FFEE8E;
+}
+
+/* bot*/
+
+#bot {
+	width: 760px;
+	margin: 0 auto;
+	padding: 10px 10px;
+	background: #4E4E4E;
+	border: 5px solid #FFFFFF;
+	border-top: none;
+}
+
+#bot p {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font-size: x-small;
+	color: #CCCCCC;
+}
+
+#bot a {
+	color: #CCCCCC;
+}
