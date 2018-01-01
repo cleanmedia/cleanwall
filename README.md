@@ -26,8 +26,6 @@ We get the box here:
 
 https://www.aliexpress.com/store/product/QOTOM-Mini-PC-Q190G4-with-4-LAN-port-using-pfsense-as-small-router-firewall-fanless-PC/108231_1000001826190.html
 
-Don't try to order the box, Wifi or SSD from another provider - safe time here first - not money.
-
 
 
 # Install Debian
@@ -143,4 +141,8 @@ ansible-playbook install-cleanwall.yml --extra-vars "target=$INT"
 # (re-)initialize the firewall after parameter changes:
 ansible-playbook fw-store.yml --extra-vars "target=$INT"
 ```
+
+Reboot your Cleanwall and enjoy!
+
+Remember, LAN1 is your WAN interface getting its "public" IP address from the upstream router. LAN2 to LAN4 and WLAN0 are bridged client interfaces and cleanwall serves cleaned IP addresses to them in the 10.1.1.X range.
 
