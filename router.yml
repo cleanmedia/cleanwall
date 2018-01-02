@@ -38,8 +38,8 @@
   - name: Copy /etc/default/hostapd
     copy: src=etc/default/hostapd dest=/etc/default/
 
-  - name: Copy /etc/hostapd/hostapd.conf
-    copy: src=etc/hostapd/hostapd.conf dest=/etc/hostapd/
+  - name: Copy /usr/local/cleanwall/wlan/hostapd.conf
+    copy: src=usr/local/cleanwall/wlan/hostapd.conf dest=/usr/local/cleanwall/wlan/
 
   - name: Install DHCP Server Package
     apt: pkg={{ item }} state=present

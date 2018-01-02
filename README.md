@@ -32,6 +32,7 @@ We get the box here:
 
 https://www.aliexpress.com/store/product/QOTOM-Mini-PC-Q190G4-with-4-LAN-port-using-pfsense-as-small-router-firewall-fanless-PC/108231_1000001826190.html
 
+You must add Wifi and 4GB RAM.
 
 
 # Install Debian
@@ -57,18 +58,15 @@ Boot the target system from the installation stick:
 * Attach USB stick (burned before)
 * Attach VGA monitor
 * Attach power
-* Push power button and then ESC to enter the BIOS
-   * make BIOS and grub boot settings visible
-   * disable secure boot
+* Push power button and then DEL or ESC to enter the Board Firmware (EFI)
+   * disable CSM and allow UEFI boot only
    * choose boot order to enable USB first
-   * do not bother too much about network settings (they will be completely overwritten by the firewall installation procedure)
 * Boot
 * Choose "Install" to use the text based installer
 * Follow more or less the mentioned tutorial with the following exceptions:
    * Choose your keyboard, location and language, that suites your needs.
    * Choose 'cleanwall' as the hostname and 'lan' as the domain
    * In the software selection dialog choose 'SSH server' and 'standard system utilities' only.
-
 
 
 First boot:

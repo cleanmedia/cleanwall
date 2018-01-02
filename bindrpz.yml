@@ -6,6 +6,11 @@
 
   tasks:
 
+  - name: Install bind9 Package
+    apt: pkg={{ item }} state=present
+    with_items:
+      - bind9
+
   - name: Create bind9 log Directory
     file:
       path: /var/log/bind
@@ -13,11 +18,6 @@
       mode: 0755
       owner: bind
       group: bind
-
-  - name: Install bind9 Package
-    apt: pkg={{ item }} state=present
-    with_items:
-      - bind9
 
   - name: Copy /etc/default/bind9
     copy: src=etc/default/bind9 dest=/etc/default/
@@ -34,7 +34,7 @@
   - name: Copy db.rpz.vip
     copy: src=etc/bind/db.rpz.vip dest=/etc/bind/
 
-  - name: Copy db.rpz (sry very slow ansible copy for 200MB)
+  - name: Copy db.rpz
     copy: src=etc/bind/db.rpz dest=/etc/bind/
 
   - name: Copy db.1.1.10
