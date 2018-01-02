@@ -22,6 +22,14 @@
       src: etc/profile.d/go-path.sh
       dest: /etc/profile.d
 
+  - name: Create go build Directory
+    become: yes
+    file:
+      path: /usr/local/cleanwall/go
+      state: directory
+      mode: 0755
+      owner: administrator
+      group: administrator
 
   - name: Get Redwood Cascadia Dependency from Github
     git:
@@ -63,7 +71,7 @@
       repo: https://github.com/remogatto/ftpget.git
       dest: /usr/local/cleanwall/go/src/github.com/remogatto/ftpget
 
-  - name: Get Redwood golang html Dependency from Github
+  - name: Get Redwood golang html Dependency
     command: go get golang.org/x/net/html
     args:
       chdir: /usr/local/cleanwall/go/src
@@ -71,7 +79,7 @@
     environment:
       GOPATH: /usr/local/cleanwall/go
 
-  - name: Get Redwood golang text Dependency from Github
+  - name: Get Redwood golang text Dependency
     command: go get golang.org/x/text
     args:
       chdir: /usr/local/cleanwall/go/src
