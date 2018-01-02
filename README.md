@@ -59,11 +59,12 @@ Boot the target system from the installation stick:
 * Attach VGA monitor
 * Attach power
 * Push power button and then DEL or ESC to enter the Board Firmware (EFI)
-   * disable CSM and allow UEFI boot only
+   * Advanced > CSM > enable CSM and use all Legacy
    * choose boot order to enable USB first
 * Boot
 * Choose "Install" to use the text based installer
 * Follow more or less the mentioned tutorial with the following exceptions:
+   * Before choosing the guided partitioning, manually remove (delete) all partitions.
    * Choose your keyboard, location and language, that suites your needs.
    * Choose 'cleanwall' as the hostname and 'lan' as the domain
    * In the software selection dialog choose 'SSH server' and 'standard system utilities' only.
