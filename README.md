@@ -18,7 +18,7 @@ debian based content filtering firewall
 
 # Introduction
 
-Cleanwall is a debian based firewall. It currently includes two bind9 response policy zones to add blacklisting to it's name services and to enforce safe search on search engines. Both to remove adult content from the Internet traffic and to get rid of some obviously evil sites. It is actually enaugh at the moment to remove the two response policy zones from the file files/usr/local/cleanwall/bind/named.conf.local and you have got a generic firewall router - without any content filtering at all. Or - if you want to keep (not up to date) evil site blacklisting - to remove the rpz.vip only and the categories from the db.rpz that you don't need to be filtered.
+Cleanwall is a debian based firewall. It currently includes two bind9 response policy zones to add blacklisting to it's name services and to enforce safe search on search engines. Both to remove adult content from the Internet traffic and to get rid of some obviously evil sites. If you don't need filtering it is enaugh to remove these two bind9 response policy zones and you have a generic firewall router. This can be done by just using install-firewall.yml instead of install-cleanwall.yml.
 
 The current release as of that date of checkin is stable and working.
 
