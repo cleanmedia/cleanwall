@@ -43,7 +43,7 @@ https://www.howtoforge.com/tutorial/debian-minimal-server/
 
 The install image is an official stable debian network install image. The only reason to use the non-free variation is the missing Ralink rt2870.bin driver. We download this latest image:
 
-http://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/9.3.0+nonfree/amd64/iso-cd/firmware-9.3.0-amd64-netinst.iso
+http://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/9.3.0+nonfree/amd64/iso-cd/firmware-9.3.0-amd64-netinst.iso
 
 And burn it to an USB stick (double check first, if /dev/sdc is right for you):
 
@@ -61,6 +61,7 @@ Boot the target system from the installation stick:
 * Push power button and then DEL or ESC to enter the Board Firmware (EFI)
    * Advanced > CSM > enable CSM and use all Legacy
    * choose boot order to enable USB first
+   * may look different on newer engines (see readme-hardware.md about UEFI for details)
 * Boot
 * Choose "Install" to use the text based installer
 * Follow more or less the mentioned tutorial with the following exceptions:
@@ -102,19 +103,16 @@ systemctl start systemd-timesyncd.service
 This is how we prepare our developer linux computer to be able to install the cleanwall target system. It is needed only once and can be done from Ubuntu.
 
 ```
-INT=192.168.11.114 # set to the target machine's IP
+TARGET=192.168.11.114 # set to the target machine's IP
 DEV=192.168.11.149 # IP of developer linux desktop used to deploy the target
-
-# adapt cleanwall.ini to reflect these your own IP's (depend on the upstream router):
-vim cleanwall.ini
 
 ssh $DEV
 # eventually re-create the login key:
 ssh-keygen # if this was not safely done before
 # send the public trust key to target:
-cat ~/.ssh/id_rsa.pub | ssh administrator@$INT "umask 077; mkdir -p .ssh; cat >.ssh/authorized_keys"
+cat ~/.ssh/id_rsa.pub | ssh administrator@$TARGET "umask 077; mkdir -p .ssh; cat >.ssh/authorized_keys"
 # check if it works without password now:
-ssh administrator@$INT
+ssh administrator@$TARGET
 
 # checkout:
 mkdir deploy
@@ -137,10 +135,10 @@ git lfs track "*.db"
 
 ```
 # Change WLAN Password (wpa_passphrase) in hostapd.conf
-vim files/etc/hostapd/hostapd.conf
+vim files/usr/local/cleanwall/wlan/hostapd.conf
 
 # Recreate cleanwall certificates:
-cd files/apache/certs
+cd files/usr/local/cleanwall/apache/certs
 ./recreate.sh
 cd -
 

@@ -1,3 +1,20 @@
+#### Removing Wireless Support
+
+The easiest way should be like so:
+
+```
+systemctl stop hostapd.service
+systemctl disable hostapd.service
+```
+And then change /etc/network/interfaces like this:
+
+* comment out the line "iface wlan0 inet manual"
+* remove wlan0 from the bridge_ports command
+* remove all other lines, that have the string wlan0 in it
+
+Then reboot (and pray you dont need to start from scratch).
+
+
 #### Wireless Client Snippets
 
 Wireless client configuration is optionally needed during installation only and is part of the debian installer now - so we remove this from the main installation instructions. It is interesting for other debian based systems.
