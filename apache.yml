@@ -26,24 +26,6 @@
       src: files/usr/local/cleanwall/apache/
       dest: /usr/local/cleanwall/apache
 
-  - name: Copy /etc/apache2/ports.conf
-    copy: src=etc/apache2/ports.conf dest=/etc/apache2/
-
-  - name: Copy /etc/apache2/sites-available/000-default.conf
-    copy: src=etc/apache2/sites-available/000-default.conf dest=/etc/apache2/sites-available/
-
-  - name: Copy /etc/apache2/sites-available/013-sorry-police-ssl.conf
-    copy: src=etc/apache2/sites-available/013-sorry-police-ssl.conf dest=/etc/apache2/sites-available/
-
-  - name: Copy /etc/apache2/sites-available/020-web2py-ssl.conf
-    copy: src=etc/apache2/sites-available/020-web2py-ssl.conf dest=/etc/apache2/sites-available/
-
-  - name: Copy /etc/apache2/sites-available/www.lan-ssl.conf
-    copy: src=etc/apache2/sites-available/www.lan-ssl.conf dest=/etc/apache2/sites-available/
-
-#  - name: Copy /etc/apache2/sites-available/default-ssl.conf
-#    copy: src=etc/apache2/sites-available/default-ssl.conf dest=/etc/apache2/sites-available/
-
   - name: Enable Apache SSL Module
     apache2_module:
       state: present
@@ -82,6 +64,24 @@
     synchronize:
       src: files/var/www/
       dest: /var/www
+
+  - name: Copy /etc/apache2/ports.conf
+    copy: src=etc/apache2/ports.conf dest=/etc/apache2/
+
+  - name: Copy /etc/apache2/sites-available/000-default.conf
+    copy: src=etc/apache2/sites-available/000-default.conf dest=/etc/apache2/sites-available/
+
+  - name: Copy /etc/apache2/sites-available/013-sorry-police-ssl.conf
+    copy: src=etc/apache2/sites-available/013-sorry-police-ssl.conf dest=/etc/apache2/sites-available/
+
+  - name: Copy /etc/apache2/sites-available/020-web2py-ssl.conf
+    copy: src=etc/apache2/sites-available/020-web2py-ssl.conf dest=/etc/apache2/sites-available/
+
+  - name: Copy /etc/apache2/sites-available/www.lan-ssl.conf
+    copy: src=etc/apache2/sites-available/www.lan-ssl.conf dest=/etc/apache2/sites-available/
+
+#  - name: Copy /etc/apache2/sites-available/default-ssl.conf
+#    copy: src=etc/apache2/sites-available/default-ssl.conf dest=/etc/apache2/sites-available/
 
   - name: Disable Default SSL Site
     command: a2ensite www.lan-ssl.conf
