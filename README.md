@@ -18,9 +18,9 @@ debian based content filtering firewall
 
 # Introduction
 
-Cleanwall is a debian based firewall. It currently includes two bind9 response policy zones to add blacklisting to it's name services and to enforce safe search on search engines. Both to remove adult content from the Internet traffic and to get rid of some obviously evil sites. If you don't need filtering it is enaugh to remove these two bind9 response policy zones and you have a generic firewall router. This can be done by just using install-firewall.yml instead of install-cleanwall.yml.
+Cleanwall is a debian based firewall. It currently includes two bind9 response policy zones to add blacklisting to it's name services and to enforce safe search on search engines. Both to remove adult content from the Internet traffic and to get rid of some obviously evil sites. If you don't need filtering it is enaugh to remove these two bind9 response policy zones and you have a generic debian based firewall router. This can be done by just using install-firewall.yml instead of install-cleanwall.yml.
 
-The current release as of that date of checkin is stable and working.
+The current release as of that date of check-in is stable and working.
 
 # Getting the Box
 
@@ -28,20 +28,20 @@ This software should work on any debian based system. However we only support on
 
 Fully tested and functional contributions for other reasonable platforms however are welcome.
 
-We get the box here:
+We currently get the box here:
 
 https://www.aliexpress.com/store/product/QOTOM-Mini-PC-Q190G4-with-4-LAN-port-using-pfsense-as-small-router-firewall-fanless-PC/108231_1000001826190.html
 
 You must add Wifi and 4GB RAM.
 
 
-# Install Debian
+# Install Debian on the (cleanwall) firewall targtet
 
 To give a background of what is being done here, we basically follow this tutorial:
 
 https://www.howtoforge.com/tutorial/debian-minimal-server/
 
-The install image is an official stable debian network install image. The only reason to use the non-free variation is the missing Ralink rt2870.bin driver. We download this latest image:
+The install image is an official stable debian network install image. The only reason to use the non-free variation is the missing Ralink rt2870.bin driver. We download this image:
 
 http://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/9.3.0+nonfree/amd64/iso-cd/firmware-9.3.0-amd64-netinst.iso
 
@@ -73,7 +73,7 @@ Boot the target system from the installation stick:
 
 First boot:
 
-* Login as user administrator and the password you gave before.
+* Login (on the Quotom target console) as user administrator and the password you gave before.
 
 * Get ready for ansible deployments:
 
@@ -98,13 +98,15 @@ systemctl enable systemd-timesyncd.service
 systemctl start systemd-timesyncd.service
 ```
 
-# Get Ready for Ansible (one time only)
+# Prepare the Developer Linux Computer for doing Ansible Deployments (needed once only)
 
-This is how we prepare our developer linux computer to be able to install the cleanwall target system. It is needed only once and can be done from Ubuntu.
+This is how we prepare our developer linux computer to be able to install the cleanwall target system. It is needed only once and can easiest be done from any Ubuntu flavour or other Linux.
 
 ```
-TARGET=192.168.11.114 # set to the target machine's IP
-DEV=192.168.11.149 # IP of developer linux desktop used to deploy the target
+TARGET=192.168.11.114 # set to the target machine's IP your router assigned on its LAN 1 port.
+DEV=192.168.11.149 # IP of the developer linux desktop used to deploy the target
+
+# Please check if the following commands are available on your $DEV machine - and install them, if not. 
 
 ssh $DEV
 # eventually re-create the login key:
@@ -114,21 +116,24 @@ cat ~/.ssh/id_rsa.pub | ssh administrator@$TARGET "umask 077; mkdir -p .ssh; cat
 # check if it works without password now:
 ssh administrator@$TARGET
 
-# checkout:
-mkdir deploy
-cd ~/deploy
-git clone https://github.com/cleanmedia/cleanwall.git
-cd cleanwall
-
 # get really ready for ansible:
 sudo apt install ansible
 
 # get ready for git LFS:
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
 sudo apt-get install git-lfs
+
+# checkout:
+mkdir deploy
+cd ~/deploy
+git clone https://github.com/cleanmedia/cleanwall.git
+cd cleanwall
+# not sure, if needed:
 git lfs track "*.rpz"
 git lfs track "*.li"
 git lfs track "*.db"
+git pull
+# just make sure, the 200MB LFS file db.rpz was extracted and downloaded
 ```
 
 # Install Cleanwall Firewall
@@ -142,14 +147,17 @@ cd files/usr/local/cleanwall/apache/certs
 ./recreate.sh
 cd -
 
-# install the cleanwall firewall:
-ansible-playbook install-cleanwall.yml --extra-vars "target=$INT"
+# Hint: make sure, the ansible inventory file  cleanwall.ini reflects your situation.
 
-# (re-)initialize the firewall after parameter changes:
-ansible-playbook fw-store.yml --extra-vars "target=$INT"
+# install the cleanwall firewall:
+ansible-playbook install-cleanwall.yml --extra-vars "target=$TARGET"
+
+# initialize the firewall after parameter changes:
+ansible-playbook fw-store.yml --extra-vars "target=$TARGET"
+# this command can also be used to re-initialize the firewall after unwanted changes.
 ```
 
 Reboot your Cleanwall and enjoy!
 
-Remember, LAN1 is your WAN interface getting its "public" IP address from the upstream router. LAN2 to LAN4 and WLAN0 are bridged client interfaces and cleanwall serves cleaned IP addresses to them in the 10.1.1.X range.
+Remember, LAN-1 is your WAN interface getting its "public" IP address from the upstream router. LAN2 to LAN4 and WLAN0 are bridged client interfaces and cleanwall serves cleaned IP addresses to them in the 10.1.1.X range.
 
