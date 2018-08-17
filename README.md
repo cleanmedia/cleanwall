@@ -133,7 +133,7 @@ git lfs track "*.rpz"
 git lfs track "*.li"
 git lfs track "*.db"
 git pull
-# just make sure, the 200MB LFS file db.rpz was extracted and downloaded
+# just make sure, the 200MB LFS files/etc/bind/db.rpz was extracted and downloaded
 ```
 
 # Install Cleanwall Firewall
